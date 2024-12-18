@@ -25,17 +25,24 @@ import java.util.concurrent.TimeUnit
 object RxJavaAssistance {
     private val TAG = "RXJava Test Assistance"
 
+    @SuppressLint("CheckResult")
     fun schedule() {
-        Observable.intervalRange(1, 5, 0, 1, TimeUnit.SECONDS).subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .doOnNext {
-                Log.d(TAG, "操作一：$it  Observer的工作线程为：${Thread.currentThread().name}")
-            }
+        Observable.create<Int> {
+            it.onNext(1)
+            it.onNext(2)
+            it.onNext(3)
+        }.doOnSubscribe { Log.d(TAG, "${Thread.currentThread().name} 1 - doOnSubscribe") }
+            .subscribeOn(Schedulers.io())
+            .doOnSubscribe { Log.d(TAG, "${Thread.currentThread().name} 2 - doOnSubscribe") }
+            .subscribeOn(Schedulers.newThread())
+            .doOnSubscribe { Log.d(TAG, "${Thread.currentThread().name} 3 - doOnSubscribe") }
             .observeOn(Schedulers.newThread())
-            .doOnNext {
-                Log.d(TAG, "操作二：$it  Observer的工作线程为：${Thread.currentThread().name}")
+            .doOnNext { Log.d(TAG, "${Thread.currentThread().name} 第一次onNext$it") }
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnNext { Log.d(TAG, "${Thread.currentThread().name} 第二次onNext$it") }
+            .subscribe {
+                Log.d(TAG, "${Thread.currentThread().name} 接收到了事件:$it")
             }
-            .subscribe(getObserver())
     }
 
     @SuppressLint("CheckResult")
