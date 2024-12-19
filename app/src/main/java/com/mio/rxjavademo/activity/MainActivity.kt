@@ -1,7 +1,5 @@
-package com.mio.rxjavademo
+package com.mio.rxjavademo.activity
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,10 +8,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import com.mio.rxjavademo.CustomButton
 import com.mio.rxjavademo.ui.theme.RxJavaDemoTheme
 
-class CreateActivity : ComponentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -24,23 +25,21 @@ class CreateActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        CustomButton("返回上一页") { finish() }
-                        CustomButton("empty") { RxJavaCreate.empty() }
-                        CustomButton("never") { RxJavaCreate.never() }
-                        CustomButton("error") { RxJavaCreate.error() }
-                        CustomButton("defer") { RxJavaCreate.defer() }
-                        CustomButton("timer") { RxJavaCreate.timer() }
-                        CustomButton("interval") { RxJavaCreate.interval() }
-                        CustomButton("intervalRange") { RxJavaCreate.intervalRange() }
-                        CustomButton("range") { RxJavaCreate.range() }
+                        CustomButton("创建操作符") { CreateActivity.start(this@MainActivity) }
+                        CustomButton("转换操作符") { SwitchActivity.start(this@MainActivity) }
+                        CustomButton("辅助操作符") { AssistanceActivity.start(this@MainActivity) }
+                        CustomButton("合并操作符") { CombineActivity.start(this@MainActivity) }
                     }
                 }
             }
         }
     }
+}
 
-    companion object {
-        fun start(context: Context) =
-            context.startActivity(Intent(context, CreateActivity::class.java).apply { })
+@Preview(showBackground = true)
+@Composable
+fun GreetingPreview() {
+    RxJavaDemoTheme {
+        CustomButton("test", {})
     }
 }

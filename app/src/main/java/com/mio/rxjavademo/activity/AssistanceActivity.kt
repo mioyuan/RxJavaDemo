@@ -1,4 +1,4 @@
-package com.mio.rxjavademo
+package com.mio.rxjavademo.activity
 
 import android.content.Context
 import android.content.Intent
@@ -12,6 +12,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import com.mio.rxjavademo.CustomButton
+import com.mio.rxjavademo.ListItem
+import com.mio.rxjavademo.RxJavaAssistance
 import com.mio.rxjavademo.ui.theme.RxJavaDemoTheme
 
 class AssistanceActivity : ComponentActivity() {
