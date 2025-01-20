@@ -1,5 +1,7 @@
 package com.mio.rxjavademo.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,13 +10,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.mio.rxjavademo.CustomButton
+import com.mio.rxjavademo.RxJavaFilter
 import com.mio.rxjavademo.ui.theme.RxJavaDemoTheme
 
-class MainActivity : ComponentActivity() {
+class FilterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -25,22 +26,21 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Column(modifier = Modifier.fillMaxWidth()) {
-                        CustomButton("创建操作符") { CreateActivity.start(this@MainActivity) }
-                        CustomButton("转换操作符") { SwitchActivity.start(this@MainActivity) }
-                        CustomButton("辅助操作符") { AssistanceActivity.start(this@MainActivity) }
-                        CustomButton("合并操作符") { CombineActivity.start(this@MainActivity) }
-                        CustomButton("过滤操作符") { FilterActivity.start(this@MainActivity) }
+                        CustomButton("返回上一页") { finish() }
+                        CustomButton("filter") { RxJavaFilter.filter() }
+                        CustomButton("ofType") { RxJavaFilter.ofType() }
+                        CustomButton("skip") { RxJavaFilter.skip() }
+                        CustomButton("distinct") { RxJavaFilter.distinct() }
+                        CustomButton("distinctUntilChanged") { RxJavaFilter.distinctUntilChanged() }
+                        CustomButton("take") { RxJavaFilter.take() }
                     }
                 }
             }
         }
     }
-}
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    RxJavaDemoTheme {
-        CustomButton("test", {})
+    companion object {
+        fun start(context: Context) =
+            context.startActivity(Intent(context, FilterActivity::class.java).apply { })
     }
 }
